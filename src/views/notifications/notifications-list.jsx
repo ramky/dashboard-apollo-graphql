@@ -28,7 +28,6 @@ NotificationList.fragment = gql`
         id
         message
         type
-        createdAt
     }
   }
 `

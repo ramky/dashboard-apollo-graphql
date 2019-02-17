@@ -23,7 +23,7 @@ import appRoutes from 'routes/app.jsx'
 
 const __SIMPLE_API_ENDPOINT__ = 'https://api.graph.cool/simple/v1/cjs86j1t90s4r0195cjzzcp8u'
 
-const httpLink = new HttpLink({ url: __SIMPLE_API_ENDPOINT__})
+const httpLink = new HttpLink({ uri: __SIMPLE_API_ENDPOINT__})
 const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache()
