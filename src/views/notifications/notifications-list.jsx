@@ -15,7 +15,7 @@ export class NotificationList extends Component {
                 {this.props.notifications.map((notification, i) => (
                     <Alert key={i} bsStyle={notification.type}>
                         <button type="button" aria-hidden="true" className="close">&#x2715;</button>
-                        <span>{notification.message}</span>
+                        <span>{notification.message} at [{notification.createdAt}]</span>
                     </Alert>
                 ))}
         </div>
@@ -28,6 +28,7 @@ NotificationList.fragment = gql`
         id
         message
         type
+        createdAt
     }
   }
 `
