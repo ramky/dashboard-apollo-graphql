@@ -21,7 +21,13 @@ import { Grid, Row, Col } from 'react-bootstrap'
 
 import appRoutes from 'routes/app.jsx'
 
-// TODO: Implement Apollo setup
+const __SIMPLE_API_ENDPOINT__ = 'https://api.graph.cool/simple/v1/cjs86j1t90s4r0195cjzzcp8u'
+
+const httpLink = new HttpLink({ url: __SIMPLE_API_ENDPOINT__})
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
 
 class App extends Component {
 
@@ -43,7 +49,7 @@ class App extends Component {
 
   render () {
     return (
-      // TODO: Implement Apollo provider
+      <ApolloProvider client={client} >
         <div className='wrapper'>
 
           <NotificationSystem ref='notificationSystem' style={style} />
@@ -89,6 +95,7 @@ class App extends Component {
             <Footer />
           </div>
         </div>
+      </ApolloProvider>  
     )
   }
 }
