@@ -59,14 +59,32 @@ class OrderList extends Component {
   }
 }
 
-// TODO: Implement Apollo GraphQL query
-
-const OrderListWithMockData = (Component) => {
-  const mockData = {"data":{"allOrders":[{"isCompleted":false,"productQuantityPerOrders":[{"id":"cje6ms9k64rnx0189ode05ow6","quantity":1,"product":{"name":"Pro Express.js","_productQuantityPerOrdersMeta":{"count":1,"__typename":"_QueryMeta"},"__typename":"Product"},"__typename":"ProductQuantityPerOrder"},{"id":"cje6msyim4rok01892irqwdir","quantity":2,"product":{"name":"Practical Node.js","_productQuantityPerOrdersMeta":{"count":1,"__typename":"_QueryMeta"},"__typename":"Product"},"__typename":"ProductQuantityPerOrder"}],"__typename":"Order","amount":49.99,"customerPayment":"0x20a788ff3daf7d3d288630ce7a5bf1eac3461091e151c6591c00b496e8912449","id":"cje64l4as4ms70189e2r94a6m","customerEmail":"hi@node.university","_productQuantityPerOrdersMeta":{"count":2,"__typename":"_QueryMeta"}}]}}
-  const props = {
-    allOrdersQuery: mockData.data,
+const ALL_ORDERS_QUERY = gql`
+  query {
+    allOrders(orderBy: orderCreatedAt_DESC) {
+      id
+      customerEmail
+      customerPayment
+      amount
+      isCompleted
+      _productQuantityPerOrdersMeta { count }
+      productQuantityPerOrders {
+        id
+        quantity
+        product {
+          name
+          _productQuantityPerOrdersMeta { count }
+        }
+      }
+    }
   }
-  props.allOrdersQuery.loading = false
-  return () => <Component {...props} />
-}
-export default OrderListWithMockData(OrderList)
+`
+
+const OrderListWithQuery = graphql(ALL_ORDERS_QUERY,{
+  name: 'allOrdersQuery',
+  options: {
+    fetchPolicy: 'network-only'
+  }
+})(OrderList)
+
+export default OrderListWithQuery
