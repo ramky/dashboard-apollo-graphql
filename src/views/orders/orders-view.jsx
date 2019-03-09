@@ -59,6 +59,23 @@ class OrderList extends Component {
   }
 }
 
+const FULLFILL_ORDER_MUTATION = gql`
+  mutation FullfillOrderMutation ($id: ID!){
+    updateOrder(id: $id, isCompleted: true) {
+      id
+      isCompleted
+    }
+  }
+`
+const UNFULLFILL_ORDER_MUTATION = gql`
+  mutation UnfullfillOrderMutation ($id: ID!){
+    updateOrder(id: $id, isCompleted: false) {
+      id
+      isCompleted
+    }
+  }
+`
+
 const ALL_ORDERS_QUERY = gql`
   query {
     allOrders(orderBy: orderCreatedAt_DESC) {
@@ -87,4 +104,9 @@ const OrderListWithQuery = graphql(ALL_ORDERS_QUERY,{
   }
 })(OrderList)
 
-export default OrderListWithQuery
+const OrderListWithMutation =
+  graphql(FULLFILL_ORDER_MUTATION, { name: 'fullfillOrderMutation' })(
+  graphql(UNFULLFILL_ORDER_MUTATION, { name: 'unFullfillOrderMutation' })
+  (OrderListWithQuery))
+
+export default OrderListWithMutation
